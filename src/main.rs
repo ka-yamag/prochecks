@@ -35,11 +35,18 @@ fn main() {
             .long("mode")
             .takes_value(true)
         )
+        .arg(Arg::with_name("target")
+            .help("specify target")
+            .short("s")
+            .long("target")
+            .takes_value(true)
+        )
         .get_matches();
 
     let duration = value_t!(matches, "duration", u64).unwrap_or(DEFAULT_DURATION);
     let tick_milliseconds = value_t!(matches, "duration", u64).unwrap_or(DEFAULT_TICK);
     let diff_flag = value_t!(matches, "diff", bool).unwrap_or(false);
+    let target_name = value_t!(matches, "target", String).unwrap_or(String::from(""));
 
     let first = Instant::now();
     let limit = Duration::from_secs(duration);
@@ -63,16 +70,30 @@ fn main() {
 
         for p in &all_procs {
             if let Ok(pexec) = p.exe() {
-                if let Ok(cmdline) = p.cmdline() {
-                    if diff_flag && !plist.contains_key(pexec.to_str().unwrap()) {
-                        let pexec_name = pexec.to_str().unwrap().to_string();
-                        plist.insert(pexec_name, cmdline.iter().cloned().collect::<String>());
-                    }
 
-                    if !diff_flag {
-                        writeln!(out, "{}", cmdline.iter().cloned().collect::<String>()).unwrap();
+                if target_name != "" {
+                    let pexec_name = pexec.to_str().unwrap().to_string();
+
+                    if pexec_name.contains(&target_name) {
+                        let pp = procfs::Process::new(p.stat.ppid).unwrap();
+
+                        if let Ok(pp_cmdline) = pp.cmdline() {
+                            writeln!(out, "target {} => parenet process : {}", target_name, pp_cmdline.iter().cloned().collect::<String>()).unwrap();
+                        }
+                    }
+                } else {
+                    if let Ok(cmdline) = p.cmdline() {
+                        if diff_flag && !plist.contains_key(pexec.to_str().unwrap()) {
+                            let pexec_name = pexec.to_str().unwrap().to_string();
+                            plist.insert(pexec_name, cmdline.iter().cloned().collect::<String>());
+                        }
+
+                        if !diff_flag {
+                            writeln!(out, "{}", cmdline.iter().cloned().collect::<String>()).unwrap();
+                        }
                     }
                 }
+
             }
         }
 
