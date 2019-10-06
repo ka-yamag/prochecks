@@ -7,6 +7,7 @@ use clap::{App, Arg};
 use std::io::{stdout, Write, BufWriter};
 use std::thread::sleep;
 use std::collections::HashMap;
+use chrono::{Local, DateTime};
 
 const DEFAULT_DURATION: u64 = 5;
 const DEFAULT_TICK: u64 = 200;
@@ -48,8 +49,10 @@ fn main() {
     let mut out = BufWriter::new(out.lock());
 
     while !done {
-
         let all_procs = procfs::all_processes();
+
+        let local_datetime: DateTime<Local> = Local::now();
+        writeln!(out, "local sys time: {}", local_datetime).unwrap();
 
         writeln!(out, "elasped time: {}.{}",
             first.elapsed().as_secs(),
@@ -60,20 +63,22 @@ fn main() {
 
         for p in &all_procs {
             if let Ok(pexec) = p.exe() {
-                if diff_flag && !plist.contains_key(pexec.to_str().unwrap()) {
-                    let pexec_name = pexec.to_str().unwrap().to_string();
-                    plist.insert(pexec_name, p.pid());
-                }
+                if let Ok(cmdline) = p.cmdline() {
+                    if diff_flag && !plist.contains_key(pexec.to_str().unwrap()) {
+                        let pexec_name = pexec.to_str().unwrap().to_string();
+                        plist.insert(pexec_name, cmdline.iter().cloned().collect::<String>());
+                    }
 
-                if !diff_flag {
-                    writeln!(out, "{}", pexec.display()).unwrap();
+                    if !diff_flag {
+                        writeln!(out, "{}", cmdline.iter().cloned().collect::<String>()).unwrap();
+                    }
                 }
             }
         }
 
         if diff_flag {
-            for (exec_name, _) in &plist {
-                writeln!(out, "{}", exec_name).unwrap();
+            for (_, cmd) in &plist {
+                writeln!(out, "{}", cmd).unwrap();
             }
             plist.clear();
         }
