@@ -1,6 +1,6 @@
 [package]
 name = "procmonitor"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["katyamag <pupupu0701@gmail.com>"]
 description = "Simple process monitor cli"
 edition = "2018"
