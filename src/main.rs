@@ -5,8 +5,10 @@ extern crate procfs;
 use std::time::{Instant, Duration};
 use clap::{App, Arg};
 use std::io::{stdout, Write, BufWriter};
+use std::thread::sleep;
 
 const DEFAULT_DURATION: u64 = 5;
+const DEFAULT_TICK: u64 = 200;
 
 fn main() {
     let matches = App::new(crate_name!())
@@ -18,10 +20,19 @@ fn main() {
             .short("d")
             .long("duration")
             .takes_value(true)
-            )
+        )
+        .arg(Arg::with_name("tick")
+            .help("ticker milliseconds")
+            .short("t")
+            .long("tick")
+            .takes_value(true)
+        )
         .get_matches();
 
     let duration = value_t!(matches, "duration", u64).unwrap_or(DEFAULT_DURATION);
+    let tick_milliseconds = value_t!(matches, "duration", u64).unwrap_or(DEFAULT_TICK);
+    println!("{}", tick_milliseconds);
+
     let first = Instant::now();
     let limit = Duration::from_secs(duration);
     let mut done = false;
@@ -48,5 +59,7 @@ fn main() {
         if first.elapsed() > limit {
             done = true;
         }
+
+        sleep(Duration::from_millis(tick_milliseconds));
     }
 }
