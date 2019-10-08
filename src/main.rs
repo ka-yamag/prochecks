@@ -78,14 +78,14 @@ fn main() {
                         let pp = procfs::Process::new(p.stat.ppid).unwrap();
 
                         if let Ok(pp_cmdline) = pp.cmdline() {
-                            writeln!(out, "target {} => parenet process : {}", target_name, pp_cmdline.iter().cloned().split_whitespace().collect::<String>()).unwrap();
+                            writeln!(out, "target {} => parenet process : {}", target_name, pp_cmdline.iter().map(|x| format!(" {}", x)).collect::<String>()).unwrap();
                         }
                     }
                 } else {
                     if let Ok(cmdline) = p.cmdline() {
                         if diff_flag && !plist.contains_key(pexec.to_str().unwrap()) {
                             let pexec_name = pexec.to_str().unwrap().to_string();
-                            plist.insert(pexec_name, cmdline.iter().cloned().split_whitespace().collect::<String>());
+                            plist.insert(pexec_name, cmdline.iter().map(|x| format!(" {}", x)).collect::<String>());
                         }
 
                         if !diff_flag {
