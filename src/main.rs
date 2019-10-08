@@ -18,13 +18,13 @@ fn main() {
         .author(crate_authors!())
         .about(crate_description!())
         .arg(Arg::with_name("duration")
-            .help("duration time")
+            .help("duration time [s]")
             .short("d")
             .long("duration")
             .takes_value(true)
         )
         .arg(Arg::with_name("tick")
-            .help("ticker milliseconds")
+            .help("ticker [ms]")
             .short("t")
             .long("tick")
             .takes_value(true)
@@ -78,14 +78,14 @@ fn main() {
                         let pp = procfs::Process::new(p.stat.ppid).unwrap();
 
                         if let Ok(pp_cmdline) = pp.cmdline() {
-                            writeln!(out, "target {} => parenet process : {}", target_name, pp_cmdline.iter().cloned().collect::<String>()).unwrap();
+                            writeln!(out, "target {} => parenet process : {}", target_name, pp_cmdline.iter().cloned().split_whitespace().collect::<String>()).unwrap();
                         }
                     }
                 } else {
                     if let Ok(cmdline) = p.cmdline() {
                         if diff_flag && !plist.contains_key(pexec.to_str().unwrap()) {
                             let pexec_name = pexec.to_str().unwrap().to_string();
-                            plist.insert(pexec_name, cmdline.iter().cloned().collect::<String>());
+                            plist.insert(pexec_name, cmdline.iter().cloned().split_whitespace().collect::<String>());
                         }
 
                         if !diff_flag {
