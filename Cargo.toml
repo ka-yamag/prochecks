@@ -6,6 +6,6 @@ description = "Simple process monitor cli"
 edition = "2018"
 
 [dependencies]
-procfs = "0.5.4"
+procfs = "0.6.0"
 clap = "2.33.0"
 chrono = "0.4.9"
