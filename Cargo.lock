@@ -120,7 +120,7 @@ dependencies = [
 
 [[package]]
 name = "procfs"
-version = "0.7.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "bitflags 1.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -138,7 +138,7 @@ version = "0.3.2"
 dependencies = [
  "chrono 0.4.9 (registry+https://github.com/rust-lang/crates.io-index)",
  "clap 2.33.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "procfs 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "procfs 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -225,7 +225,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum libflate 0.1.27 (registry+https://github.com/rust-lang/crates.io-index)" = "d9135df43b1f5d0e333385cb6e7897ecd1a43d7d11b91ac003f4d2c2d2401fdd"
 "checksum num-integer 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)" = "b85e541ef8255f6cf42bbfe4ef361305c6c135d10919ecc26126c4e5ae94bc09"
 "checksum num-traits 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)" = "6ba9a427cfca2be13aa6f6403b0b7e7368fe982bfa16fccc450ce74c46cd9b32"
-"checksum procfs 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "cf06ae4575b4aabb2dd5141c0206e49b37a60eef6cd04b33cb3b75eddb140657"
+"checksum procfs 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)" = "46ecfdd2ec44745de33a9a6a721eb1f9e0fb366ad1c15b7d13bc4a5e41bb48c1"
 "checksum redox_syscall 0.1.56 (registry+https://github.com/rust-lang/crates.io-index)" = "2439c63f3f6139d1b57529d16bc3b8bb855230c8efcc5d3a896c8bea7c3b1e84"
 "checksum rle-decode-fast 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "cabe4fa914dec5870285fa7f71f602645da47c486e68486d2b4ceb4a343e90ac"
 "checksum strsim 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "8ea5119cdb4c55b55d432abb513a0429384878c15dde60cc77b1c99de1a95a6a"
