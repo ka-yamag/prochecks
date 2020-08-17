@@ -8,4 +8,4 @@ edition = "2018"
 [dependencies]
 procfs = "0.7.5"
 clap = "2.33.0"
-chrono = "0.4.10"
+chrono = "0.4.15"
